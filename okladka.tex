@@ -1,0 +1,91 @@
+%\enablemode[draft]
+\enablemode[attributions]
+%\enablemode[indexes]
+%\enablemode[preprint]
+
+%\showstruts
+
+\enableregime[utf]
+\mainlanguage[pl]
+\setupexternalfigures[directory={ilustr}]
+\tolerance=2000
+
+\enabletrackers[fonts.missing]
+
+\setuppapersize[A5][A4,landscape]
+\setuparranging[2UP]
+
+\setuplayout[location={middle,middle}]
+% 148 x 210 mm
+\setuplayout[
+    % w pionie
+	topspace=20mm,
+	height=160mm,
+	header=5mm,
+	footer=5mm,
+	top=5mm,
+    %
+	width=118mm,
+	backspace=14mm,
+	leftmargindistance=3mm,
+	rightmargindistance=3mm,
+	]
+%\showframe
+
+\usemodule[simplefonts]
+\setupbodyfont[palatino]
+%\definebodyfontenvironment[default][xx=8pt,x=10pt,text=11pt,a=12pt,b=14pt]
+
+
+
+\setuppagenumbering[location=,alternative=doublesided]
+
+
+\def\booktitlecmd#1{\switchtobodyfont[antykwa-torunska]\tfd\bf #1}
+\definehead[booktitle][subject]
+\setuphead[booktitle][
+	after={\blank[20mm]},
+	textcommand=\booktitlecmd,
+	alternative=middle,
+	incrementnumber=no,
+	number=no,
+    page=no,
+]
+
+
+%}}}
+
+\starttext
+
+\setupheader[state=high]
+\setupfooter[state=high]
+\strut
+\startbooktitle[title={Śpiewnik kolęd}]
+\midaligned{%
+    \externalfigure[narodzenie/166 - The Nativity of Our Lord]%
+    [width=0.7\textwidth]}
+
+\vfill
+
+\startlines[align=middle]
+Boże Narodzenie 2015
+\stoplines
+
+
+\page[yes]
+\strut
+\page[yes]
+\strut
+\page[yes]
+\setupheader[state=high]
+\setupfooter[state=high]
+
+\strut
+\vskip 0pt plus 1fill%
+\hskip 0pt plus 3fill%
+\externalfigure[rysunki/kot][width=0.3\textwidth]%
+\hskip 0pt plus 2fill\strut%
+\vskip 0pt plus 0fill%
+
+
+% vim: ts=4 sw=4

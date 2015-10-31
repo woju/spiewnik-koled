@@ -1,0 +1,2215 @@
+%\enablemode[draft]
+\enablemode[attributions]
+\enablemode[indices]
+%\enablemode[preprint]
+
+%\showstruts
+
+%
+% {{{1 basic setup
+%
+\enableregime[utf]
+\mainlanguage[pl]
+\setupexternalfigures[directory={ilustr}]
+\tolerance=2000
+
+\enabletrackers[fonts.missing]
+
+\setupinteraction[
+    title={Śpiewnik kolęd},
+%   subtitle={},
+    author={Stanisław Porczyk},
+    state=start,
+    color=black,
+    contrastcolor=black,
+]
+
+\setupexport[
+    firstpage={ilustr/narodzenie/166 - The Nativity of Our Lord.gif},
+]
+
+\setupbackend[
+%   export=spiewnik.xml,
+%   xhtml=spiewnik.xhtml,
+%   css=spiewnik.css,
+    format={pdf/a-1a:2005},
+    profile={default_cmyk.icc,default_rgb.icc,default_gray.icc},
+    intent={ISO coated v2 300\letterpercent\space (ECI)},
+]
+
+\setupstructure[state=start,method=auto]
+
+%\setupinteractionscreen[option=bookmark]
+\placebookmarks[booktitle,title,section,subject][force=yes]
+
+%
+% layout, dimensions {{{1
+%
+\doifmodeelse{preprint}{
+\setuppapersize[A5]
+}{
+\setuppapersize[A5][A4,landscape]
+\setuparranging[2UP]
+}
+
+\setuplayout[location={middle,middle}]
+% 148 x 210 mm
+\setuplayout[
+    % w pionie
+    topspace=9mm,
+    height=193mm, % nie ruszać
+    header=0mm,
+    headerdistance=0mm,
+    footerdistance=2.5mm,
+    footer=5mm,
+    top=5mm,
+    %
+    width=110mm, % nie ruszać
+    backspace=18mm,
+    margin=7mm,
+    margindistance=3mm,
+    edgedistance=1mm,
+    ]
+%\showframe
+
+
+\setupitemgroup[itemize][inbetween=,before=,after=]
+\setupitemgroup[itemize][1][n][style=em,width=8mm]
+%\setupitemgroup[itemize][2][]
+%\setupitemgroup[itemize][3][n]
+
+\setupnarrower[left=8mm,right=0mm]
+\setupwhitespace[none]
+\definelines[stanza][
+    option=packed,
+    before=,
+    after={\strut\vskip 3mm},
+    inbetween=,
+    align=normal]
+\definelines[refrain][
+    option=packed,
+    before={\unskip\startnarrower},
+    after={\stopnarrower\vskip 3mm},
+    inbetween=,
+    align=normal]
+
+%
+% {{{1 fonts, styles
+%
+
+%\usemodule[simplefonts]
+
+\definefontfeature[default][default][protrusion=quality,expansion=quality,script=latn]
+
+\starttypescriptcollection[linuxlibertine]
+
+    \starttypescript [serif] [linuxlibertine]
+        \definefontsynonym [Libertine-Regular]    [file:LinLibertine_R.otf]
+        \definefontsynonym [Libertine-Italic]     [file:LinLibertine_RI.otf]
+        \definefontsynonym [Libertine-Bold]       [file:LinLibertine_RB.otf]
+        \definefontsynonym [Libertine-BoldItalic] [file:LinLibertine_RBI.otf]
+    \stoptypescript
+
+    \starttypescript [serif] [linuxlibertine] [name]
+        \setups[font:fallback:serif]
+        \definefontsynonym [Serif]           [Libertine-Regular]    [features=default]
+        \definefontsynonym [SerifItalic]     [Libertine-Italic]     [features=default]
+        \definefontsynonym [SerifBold]       [Libertine-Bold]       [features=default]
+        \definefontsynonym [SerifBoldItalic] [Libertine-BoldItalic] [features=default]
+        \definefontsynonym [SerifCaps]       [Libertine-Regular]    [features=smallcaps]
+    \stoptypescript
+
+    \starttypescript [sans] [biolinum]
+        \setups[font:fallback:sans]
+        \definefontsynonym [Biolinum-Regular]    [file:LinBiolinum_R.otf]
+        \definefontsynonym [Biolinum-Bold]       [file:LinBiolinum_RB.otf]
+        \definefontsynonym [Biolinum-Italic]     [file:LinBiolinum_RI.otf]
+%       \definefontsynonym [Biolinum-Slanted]    [file:LinBiolinum_R.otf]
+        \definefontsynonym [Biolinum-BoldItalic] [file:LinBiolinum_RBI.otf]
+    \stoptypescript
+
+    \starttypescript [sans] [biolinum] [name]
+        \setups[font:fallback:sans]
+        \definefontsynonym [Sans]           [Biolinum-Regular]    [features=default]
+        \definefontsynonym [SansBold]       [Biolinum-Bold]       [features=default]
+        \definefontsynonym [SansItalic]     [Biolinum-Italic]     [features=default]
+%       \definefontsynonym [SansSlanted]    [Biolinum-Slanted]    [features=default]
+        \definefontsynonym [SansBoldItalic] [Biolinum-BoldItalic] [features=default]
+        \definefontsynonym [SansCaps]       [Biolinum-Regular]    [features=smallcaps]
+    \stoptypescript
+
+    \starttypescript [linuxlibertine]
+        \definetypeface [linuxlibertine] [rm] [serif] [linuxlibertine] [default]
+        \definetypeface [linuxlibertine] [ss] [sans]  [biolinum]  [default]
+        \definetypeface [linuxlibertine] [tt] [mono]  [default]   [default]
+        %definetypeface [libertine] [mm] [math]  [times]     [default]
+        \quittypescriptscanning
+    \stoptypescript
+
+\stoptypescriptcollection
+
+
+\usetypescript[linuxlibertine]
+\setupbodyfont[linuxlibertine]
+%\setupbodyfont[palatino]
+
+\setupalign[hz,hanging]
+
+%\definebodyfontenvironment[default][xx=8pt,x=10pt,text=11pt,a=12pt,b=14pt]
+
+
+
+%\setupfootertexts[\setups{footer}]
+%\setupheadertexts[\setups{headero}][][\setups{headere}][]
+%\setupfootertexts[\setups{footer}]
+\setupfootertexts[\setups{footero}][][\setups{footere}][]
+\setuppagenumbering[location=,alternative=doublesided]
+
+\startsetups[footer]
+\hfill---~\pagenumber~---\hfill
+\stopsetups
+
+\startsetups[footero]
+\hfill\bf\pagenumber
+\stopsetups
+
+\startsetups[footere]
+\bf\pagenumber\hfill
+\stopsetups
+
+\startsetups[headero]
+\underbar{{\tfx Śpiewnik kolęd, 2015\doifmode{draft}{\hfill\color[red]{PROJEKT}}\hfill}\bf\pagenumber}
+\stopsetups
+
+\startsetups[headere]
+\underbar{{\bf\pagenumber}\tfx\doifmode{draft}{\hfill\color[red]{PROJEKT}}\hfill Śpiewnik kolęd, 2015}
+\stopsetups
+
+
+\setupdelimitedtext[quotation:1][left=«,right=»]
+\setupdelimitedtext[quote:1][left=„,right=”]
+
+\startsetups[table:attributions]
+% attributions
+\setupTABLE[each][each][style={\tfx\em},frame=off]
+\setupTABLE[r][each][height=4.5mm]
+%\setupTABLE[c][1][width=15mm,align={flushright,lohi},style={\tfx\em\bf}]
+\setupTABLE[c][1][align={flushright,lohi},style={\tfx\ss\bf}]
+\setupTABLE[c][2][width=broad]
+\stopsetups
+
+\startsetups[table:dedication]
+\setupTABLE[frame=off]
+\setupTABLE[c][1][width=40mm]
+\setupTABLE[c][2][style={\tfa\em},align={flushleft,lohi}]
+\stopsetups
+
+
+\useexternalfigure[fillersmall]%
+    [śnieg/Ice_cristal_-_heraldic_figure]%
+    [align=middle,width=15mm,]
+
+\def\fillersmall{%
+\vskip 0pt plus 8fill%
+\midaligned{\externalfigure[fillersmall]}%
+\vskip 0pt plus 5fill%
+}
+
+%
+%
+% titles, indices {{{1
+%
+
+\definestructureresetset[default][1,1,0][1]
+\setuphead[sectionresetset=default]
+
+% kolęda
+\setuphead[section][
+    style={\ss\tfa\bf},
+%   numberstyle={\ss\tfb\bf},
+    alternative=inmargin,
+%   before={\testpage[7]\blank[3mm]},
+    after={\blank[3mm]},
+    page=yes,
+    sectionsegments=section,
+]
+
+% spis treści
+\setuphead[subject][ % spis treści etc.
+    page=no,
+    before=,
+    after=,
+    style={\ss\tfa\bf},
+    align=middle,
+    incrementnumber=no,
+    number=no,
+]
+
+% strona tytułowa (dodatku również)
+\def\titlecmd#1{\switchtobodyfont[palatino]\tfd\bf #1}
+\setuphead[title][
+    before={\blank[60mm]},
+    after={\blank[20mm]},
+    textcommand=\titlecmd,
+    alternative=middle,
+    incrementnumber=yes,
+    number=no,
+    page=no,
+]
+
+\definehead[booktitle][title]
+
+\definecombinedlist[content][title,section]
+%\definecombinedlist[content][subject,section]
+\setupcombinedlist[content][criterium=all,alternative=c]
+
+\setuplist[interaction=all,color=black,distance=-5mm]
+%\setuplist[title][headnumber=no]
+
+\defineprocessor[sc][style=sc]
+
+\defineregister[author]
+\setupregister[author][
+    n=1,
+    balance=no,indicator=no]
+\defineregister[composer]
+\setupregister[composer][
+    n=1,
+    balance=no,indicator=no,
+%   pagenumber=no,number=yes
+    ]
+
+%}}}
+
+\starttext
+
+% Śpiewnik kolęd {{{1
+\setupheader[state=high]
+\setupfooter[state=high]
+\strut
+\startbooktitle[title={Śpiewnik kolęd}]
+%\placefigure[none]{}{\externalfigure[znak_roku_2014][width=0.6\textwidth]}
+\vfill
+
+\startlines[align=middle]
+\doifmode{draft}{\color[red]{PROJEKT --- NIE DO DRUKU}}
+
+{\sc Boże Narodzenie 2015}
+\stoplines
+
+\page[yes]
+\setupheader[state=high]
+\setupfooter[state=high]
+
+\strut
+\vfill
+{\tfx\em oprac.~rodzina Porczyków}
+
+\page[yes]
+\setupheader[state=high]
+\setupfooter[state=high]
+
+\startalignment[middle]
+
+\strut\vskip 0pt plus 3fill
+
+\start
+\setups[table:dedication]
+\bTABLE
+\bTR\bTD\eTD\bTD Dla naszych Dziadków,\eTD\eTD
+\bTR\bTD\eTD\bTD Krystyny~i~Edwarda~Józefowiczów\eTD\eTR
+\eTABLE
+\stop
+
+\vskip 0pt plus 1fill
+\strut
+
+\stopalignment
+
+\setups[table:attributions]
+
+\page[empty]
+
+\subject{Spis treści}
+\placecontent
+
+\fillersmall
+
+\page[yes,odd]
+
+\startsection[title={Ach, ubogi żłobie}] %{{{1
+% http://bibliotekapiosenki.pl/Ach_ubogi_zlobie
+%\author{Mioduszewski, ks. Michał, CM}
+\author{Siedlecki, ks. Jan, CM}
+\composer{Studziński, Piotr}
+
+\startstanza
+Ach ubogi żłobie, cóż ja widzę w~Tobie?
+Droższy widok, niż ma niebo, w~maleńkiej Osobie.\stopstanza
+
+\startstanza
+Zbawicielu drogi, takżeś to ubogi;
+opuściłeś śliczne niebo, obrałeś barłogi.\stopstanza
+
+\startstanza
+Czyżeś nie mógł sobie w~największej ozdobie
+obrać pałacu drogiego, nie w~tym leżeć żłobie?\stopstanza
+
+\startstanza
+Gdy na świat przybywasz, grzechy z~niego zmywasz,
+a~na zmycie tej sprośności, gorzkie łzy wylewasz.\stopstanza
+
+\startstanza
+Na twarz upadamy, czołem uderzamy,
+witając Cię w~tej stajence między bydlętami.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD XVIII~w.\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD Piotr Studziński (XIX~w.)\eTD\eTR
+    \bTR\bTD\eTD\bTD w~\quote{Śpiewniczku} ks.~Jana Siedleckiego CM (1878~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Anioł pasterzom mówił}] %{{{1
+% http://bibliotekapiosenki.pl/Aniol_pasterzom_mowil
+\author{Kancjonał kórnicki}
+
+\startstanza
+Anioł pasterzom mówił:
+Chrystus się nam narodził
+w~Betlejem, nie bardzo podłym mieście,
+narodził się w~ubóstwie
+Pan wszego stworzenia.\stopstanza
+
+\startstanza
+Chcąc się dowiedzieć tego,
+poselstwa wesołego
+bieżeli do Betlejem skwapliwie,
+znaleźli Dziecię w~żłobie,
+Maryję z~Józefem.\stopstanza
+
+\startstanza
+Taki Pan chwały wielkiej
+uniżył się Wysoki,
+pałacu kosztownego żadnego
+nie miał zbudowanego
+Pan wszego stworzenia.\stopstanza
+
+\startstanza
+O~dziwne narodzenie,
+nigdy nie wysłowione!
+Poczęła Panna Syna w~czystości,
+porodziła w~całości
+panieństwa swojego.\stopstanza
+
+\startstanza
+Już się ono spełniło,
+co pod figurą było:
+Arona różdżka ona zielona
+stała się nam kwitnąca
+i~owoc rodząca.\stopstanza
+
+\page[yes]
+
+\startstanza
+Słuchajcież Boga Ojca,
+jako wam Go zaleca:
+Ten ci jest Syn najmilszy, jedyny,
+w~raju wam obiecany,
+Tego wy słuchajcie.\stopstanza
+
+\startstanza
+Bogu bądź cześć i~chwała,
+która by nie ustała,
+jak  Ojcu, tak i~Jego Synowi,
+i~Świętemu Duchowi,
+w~Trójcy jedynemu.\stopstanza
+
+\fillersmall
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD XVI~w., \quote{Kancjonał kórnicki} (1551-1555~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD XVII~w.\eTD\eTR
+\eTABLE
+
+
+\startsection[title={A~cóż z~tą Dzieciną}] %{{{1
+% http://bibliotekapiosenki.pl/A_coz_z_ta_Dziecina
+\author{franciszkanki}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+A~cóż z~tą Dzieciną będziem czynili,
+pastuszkowie mili, że się nam kwili?
+Zaśpiewajmy Mu wesoło
+i~obróćmy się z~Nim w~koło,
+hoc hoc hoc hoc hoc.\stopstanza
+
+\startstanza
+Podobno Dzieciątko, że głodne, płacze,
+dlatego tak z~nami nierado skacze,
+więc ja Mu dam kukiełeczkę
+i~masełka osełeczkę,
+pa pa pa pa pa.\stopstanza
+
+\startstanza
+Albo pacholęciu w~dudki zagrajmy
+i~na piszczałeczkach rozweselajmy:
+li li li li, moje dudki,
+skacz, robaczku mój malutki,
+li li li li li.\stopstanza
+
+\startstanza
+Jużci nie chce płakać Dziecina dłużej,
+ale ukojone oczęta mruży.
+Więc Go włóżmy w~kolebeczkę,
+zaśpiewajmy Mu piosneczkę,
+lu lu lu lu lu.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kancjonałach franciszkańskich (XVIII~w.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={A~wczora z~wieczora\\(16.~symfonia anielska)}, %{{{1
+    bookmark={A wczora z wieczora}]
+% http://bibliotekapiosenki.pl/A_wczora_z_wieczora
+% 16. symfonia anielska
+\author{Żabczyc, Jan}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+A~wczora z~wieczora,
+z~niebieskiego dwora
+przyszła nam nowina;
+Panna rodzi Syna.\stopstanza
+
+\startstanza
+Boga prawdziwego,
+nieogarnionego,
+za wyrokiem Boskim,
+w~Betlejem żydowskim.\stopstanza
+
+\startstanza
+Pastuszkowie mali,
+w~polu w~ten czas spali,
+gdy Anioł w~pół nocy
+światłość z~nieba toczy.\stopstanza
+
+\startstanza
+Chwałę oznajmując,
+szopę pokazując,
+gdzie Panna z~Dzieciątkiem,
+z~wołem i~oślątkiem.\stopstanza
+
+\startstanza
+I~Józefem starym,
+nad Jezusem małym,
+chwalą Boga swego
+dziś narodzonego.\stopstanza
+
+\startstanza
+Witaj Królu nowy,
+Synu Dawidowy,
+Ty nas masz wybawić
+i~w~niebie postawić.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD \quote{Symfonie anielskie}, Jan Żabczyc (1630~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843 r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Bóg się rodzi}] %{{{1
+% http://bibliotekapiosenki.pl/Bog_sie_rodzi_%28koleda%29
+\author{Karpiński, Franciszek}
+\author{Mioduszewski, ks. Michał, CM+„Śpiewnik kościelny”}
+
+\startstanza
+Bóg się rodzi, moc truchleje,
+Pan niebiosów obnażony;
+ogień krzepnie, blask ciemnieje,
+ma granice Nieskończony.
+Wzgardzony, okryty chwałą,
+śmiertelny Król nad wiekami;\stopstanza
+\startrefrain
+    a~Słowo Ciałem się stało
+    i~mieszkało między nami.\stoprefrain
+
+\startstanza
+Cóż masz niebo nad ziemiany?
+Bóg porzucił szczęście swoje,
+wszedł między lud ukochany,
+dzieląc z~nim trudy i~znoje.
+Niemało cierpiał, niemało,
+żeśmy byli winni sami,\stopstanza
+\startrefrain
+    a~Słowo Ciałem się stało
+    i~mieszkało między nami.\stoprefrain
+
+\startstanza
+W~nędznej szopie urodzony,
+żłób mu za kolebkę dano.
+Cóż jest, czym był otoczony?
+Bydło, pasterze i~siano.
+Ubodzy, was to spotkało
+witać Go przed bogaczami,\stopstanza
+\startrefrain
+    a~Słowo Ciałem się stało
+    i~mieszkało między nami.\stoprefrain
+
+\page[yes]
+
+\startstanza
+Potem i~króle widziani
+cisną się między prostotą,
+niosąc dary Panu w~dani:
+mirrę, kadzidło i~złoto.
+Bóstwo to razem zmieszało
+z~wieśniaczymi ofiarami,\stopstanza
+\startrefrain
+    a~Słowo Ciałem się stało
+    i~mieszkało między nami.\stoprefrain
+
+\startstanza
+Podnieś rękę, Boże Dziecię,
+błogosław ojczyznę miłą,
+w~dobrych radach, w~dobrym bycie
+wspieraj jej siłę swą siłą,
+dom nasz i~majętność całą,
+i~wszystkie wioski z~miastami.\stopstanza
+\startrefrain
+    a~Słowo Ciałem się stało
+    i~mieszkało między nami.\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD Franciszek~Karpiński (ok.~1790~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Śpiewnik kościelny}, ks. Michał Mioduszewski CM (1838~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Bracia, patrzcie jeno}] %{{{1
+% http://bibliotekapiosenki.pl/Bracia_patrzcie_jeno
+\author{Klonowski, Teofil}
+
+\startstanza
+Bracia patrzcie jeno, jak niebo goreje!
+Znać, że coś dziwnego w~Betlejem się dzieje.
+Rzućmy budy, warty, stada,
+niechaj nimi Pan Bóg włada,
+a~my do Betlejem, do Betlejem.\stopstanza
+
+\startstanza
+Patrzcie, jak tam gwiazda światłem swoim miga!
+Pewnie do uczczenia Pana swego ściga.
+Krokiem śmiałym i~wesołym
+śpieszmy i~uderzmy czołem;
+przed Panem w~Betlejem, w~Betlejem.\stopstanza
+
+\startstanza
+Wszakże powiedziałem, że cuda ujrzymy:
+Dziecię, Boga świata, w~żłobie zobaczymy.
+Patrzcie, jak biednie okryte
+w~żłobie Panię znakomite,
+w~szopie przy Betlejem, przy Betlejem.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t. i~m.:\eTD\bTD \quote{Zbiór pieśni z~melodyjami}, Teofil Klonowski (1858~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Cicha noc}] %{{{1
+% http://bibliotekapiosenki.pl/Cicha_noc_%28koleda%29
+\author{Mohr, ks. Joseph}
+\author{Maszyński, Piotr}
+\composer{Gruber, Franz Xaver}
+
+\startstanza
+Cicha noc, święta noc,
+pokój niesie ludziom wszem,
+a~u~żłobka Matka Święta
+czuwa sama uśmiechnięta,
+nad Dzieciątka snem.\stopstanza
+
+\startstanza
+Cicha noc, święta noc,
+pastuszkowie od swych trzód
+biegną wielce zadziwieni,
+za anielskim głosem pieni,
+gdzie się spełnił cud.\stopstanza
+
+\startstanza
+Cicha noc, święta noc,
+narodzony Boży Syn,
+Pan wielkiego majestatu,
+niesie dziś całemu światu
+odkupienie win.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD Joseph Mohr (1818~r.)\eTD\eTR
+    \bTR\bTD tłum.:\eTD\bTD Piotr Maszyński (ok. 1930~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD Franz Xaver Gruber (1818~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Dlaczego dzisiaj wśród nocy dnieje}] %{{{1
+% http://bibliotekapiosenki.pl/Dlaczego_dzisiaj_wsrod_nocy_dnieje
+\author{Kaszycki, Jan}
+\composer{Markiewicz}
+
+\startstanza
+Dlaczego dzisiaj wśród nocy dnieje
+i~jako słońce niebo jaśnieje?\stopstanza
+\startrefrain
+    Chrystus, Chrystus nam się narodził
+    aby nas od piekła oswobodził!\stoprefrain
+
+\startstanza
+Dlaczego dzisiaj, Boży aniele
+ogłaszasz ludziom wielkie wesele?\stopstanza
+\startrefrain
+    Chrystus, Chrystus nam się narodził
+    aby nas od piekła oswobodził!\stoprefrain
+
+\startstanza
+Czemuż pasterze do szopy śpieszą
+i~podarunki ze sobą niosą?\stopstanza
+\startrefrain
+    Chrystus, Chrystus nam się narodził
+    aby nas od piekła oswobodził!\stoprefrain
+
+\startstanza
+Czemuż wół, osioł społem klękają,
+małej Dziecinie pokłon oddają?\stopstanza
+\startrefrain
+    Chrystus, Chrystus nam się narodził
+    aby nas od piekła oswobodził!\stoprefrain
+
+\startstanza
+Dlaczego gwiazda nad podziw świeci
+i~przed Królami tak szybko leci?\stopstanza
+\startrefrain
+    Chrystus, Chrystus nam się narodził
+    aby nas od piekła oswobodził!\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD Jan Kaszycki (1911~r.)\eTD\eTR % "Kantyczki z nutami"?
+    \bTR\bTD m.:\eTD\bTD Markiewicz\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Do szopy hej pasterze}] %{{{1
+% http://bibliotekapiosenki.pl/Do_szopy_hej_pasterze
+\author{Gwoździowski, J. A.}
+
+\startstanza
+Do szopy, hej pasterze,
+do szopy, bo tam cud!
+Syn Boży w~żłobie leży,
+by zbawić ludzki ród.\stopstanza
+\startrefrain
+    Śpiewajcie Aniołowie,
+    pasterze, grajcie Mu.
+    Kłaniajcie się Królowie,
+    nie budźcie Go ze snu.\stoprefrain
+
+\startstanza
+Padnijmy na kolana,
+to Dziecię to nasz Bóg.
+Witajmy swego Pana,
+wdzięczności złóżmy dług.\stopstanza
+\startrefrain
+    Śpiewajcie...\stoprefrain
+
+\startstanza
+O~Boże niepojęty, kto
+pojmie miłość Twą?
+Na sianie wśród bydlęty
+masz tron i~służbę swą.\stopstanza
+\startrefrain
+    Śpiewajcie...\stoprefrain
+
+\startstanza
+Bóg, Stwórca wiecznej chwały,
+Bóg godzien wszelkiej czci,
+patrz, w~szopie tej zbutwiałej,
+jak słodko On tam śpi.\stopstanza
+\startrefrain
+    Śpiewajcie...\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD \quote{Największa kantyczka}, J.~A.~Gwoździowski (1938~r.)\eTD\eTR
+\eTABLE
+
+
+
+\startsection[title={Dzisiaj w~Betlejem}] %{{{1
+% http://bibliotekapiosenki.pl/Dzisiaj_w_Betlejem
+\author{Siedlecki, ks. Jan, CM}
+
+\startstanza
+Dzisiaj w~Betlejem, dzisiaj w~Betlejem wesoła nowina,
+że Panna czysta, że Panna czysta porodziła Syna.\stopstanza
+\startrefrain
+    Chrystus się rodzi, nas oswobodzi,
+    anieli grają, króle witają,
+    pasterze śpiewają, bydlęta klękają,
+    cuda, cuda ogłaszają.\stoprefrain
+
+\startstanza
+Maryja Panna, Maryja Panna Dzieciątko piastuje
+i~Józef stary, i~Józef stary Ono pielęgnuje.\stopstanza
+\startrefrain
+    Chrystus się rodzi...\stoprefrain
+
+\startstanza
+Choć w~stajeneczce, choć w~stajeneczce Panna Syna rodzi,
+przecież On wkrótce, przecież On wkrótce ludzi oswobodzi.\stopstanza
+\startrefrain
+    Chrystus się rodzi...\stoprefrain
+
+\startstanza
+I~Trzej Królowie, i~Trzej Królowie od wschodu przybyli
+i~dary Panu, i~dary Panu kosztowne złożyli.\stopstanza
+\startrefrain
+    Chrystus się rodzi...\stoprefrain
+
+\startstanza
+Pójdźmy też i~my, pójdźmy też i~my przywitać Jezusa,
+Króla nad królmi, Króla nad królmi uwielbić Chrystusa.\stopstanza
+\startrefrain
+    Chrystus się rodzi...\stoprefrain
+
+\startstanza
+Bądźże pochwalon, bądźże pochwalon dziś nasz wieczny Panie,
+któryś złożony, któryś złożony na zielonem sianie.\stopstanza
+\startrefrain
+    Chrystus się rodzi...\stoprefrain
+
+\startstanza
+Bądź pozdrowiony, bądź pozdrowiony Boże nieskończony.
+Sławimy Ciebie, sławimy Ciebie Jezu niezmierzony.\stopstanza
+\startrefrain
+    Chrystus się rodzi...\stoprefrain
+
+
+\vfill
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD \quote{Śpiewniczek}, ks. Jan Siedlecki CM (1878~r.)\eTD\eTR
+\eTABLE
+
+
+% Filler: choinka {{{1
+\page[yes]
+\strut
+\vskip 0pt plus 3fill
+\startalignment[middle]\dontleavehmode
+\externalfigure[rysunki/choinka][align=middle,width=0.75\textwidth,]%
+\stopalignment
+\vskip 0pt plus 2fill
+
+
+\startsection[title={Gdy się Chrystus rodzi}] %{{{1
+% http://bibliotekapiosenki.pl/Gdy_sie_Chrystus_rodzi
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+Gdy się Chrystus rodzi i~na świat przychodzi
+ciemna noc w~jasnościach promienistych brodzi.
+Aniołowie się radują,
+pod niebiosy wyśpiewują:
+Gloria, gloria, gloria, in excelsis Deo!\stopstanza
+
+\startstanza
+Mówią do pasterzy, którzy trzód swych strzegli
+aby do Betlejem czem prędzej pobiegli.
+Bo się narodził Zbawiciel,
+wszego świata Odkupiciel;
+Gloria, gloria, gloria, in excelsis Deo!\stopstanza
+
+\startstanza
+O~niebieskie duchy i~posłowie nieba!
+Powiedzcież wyraźniej, co nam czynić trzeba.
+Bo my nic nie pojmujemy,
+ledwo od strachu żyjemy;
+Gloria, gloria, gloria, in excelsis Deo!\stopstanza
+
+\startstanza
+Idźcież do Betlejem, gdzie Dziecię zrodzone,
+W~pieluszki powite, w~żłobie położone.
+Oddajcie Mu pokłon Boski,
+On osłodzi wasze troski:
+Gloria, gloria, gloria, in excelsis Deo!\stopstanza
+
+\startstanza
+A~gdy pastuszkowie wszystko zrozumieli
+zaraz do Betlejem śpieszno pobieżeli
+i~zupełnie tak zastali
+jak Anieli im zeznali.
+Gloria, gloria, gloria, in excelsis Deo!\stopstanza
+
+\page[yes]
+
+\startstanza
+A~stanąwszy w~miejscu pełni zadumienia,
+iż się Bóg tak zniżył do swego stworzenia,
+padli przed Nim na kolana
+i~uczcili swego Pana:
+Gloria, gloria, gloria, in excelsis Deo!\stopstanza
+
+\startstanza
+Nareszcie, gdy pokłon Panu już oddali
+z~wielką wesołością do swych trzód wracali,
+że się stali być godnymi
+Boga widzieć na tej ziemi.
+Gloria, gloria, gloria, in excelsis Deo!\stopstanza
+
+%\vfill
+\fillersmall
+
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843 r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD być może starofrancuska\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Gdy śliczna Panna}] %{{{1
+% http://bibliotekapiosenki.pl/Gdy_sliczna_Panna
+\author{karmelitanki}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+Gdy śliczna Panna Syna kołysała
+z~wielkim weselem tak Jemu śpiewała:\stopstanza
+\startrefrain
+    Lili lili laj, moje dzieciąteczko,
+    lili lili laj, śliczne paniąteczko.\stoprefrain
+
+\startstanza
+Wszystko stworzenie śpiewaj Panu swemu,
+pomóż radości wielkiej sercu memu.\stopstanza
+\startrefrain
+    Lili lili laj, wielki królewicu,
+    lili lili laj, niebieski dziedzicu.\stoprefrain
+
+\startstanza
+Sypcie się z~nieba liczni aniołowie,
+śpiewajcie Panu niebiescy duchowie.\stopstanza
+\startrefrain
+    Lili lili laj, mój wonny kwiateczku,
+    lili lili laj, w~ubogim żłóbeczku.\stoprefrain
+
+\startstanza
+Cicho wietrzyku, cicho południowy,
+cicho powiewiaj, niech śpi Panicz nowy:\stopstanza
+\startrefrain
+    Lili lili laj, mój wdzięczny Synaczku,
+    lili lili laj, miluchny robaczku.\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kantyczkach karmelitańskich (XVIII~w.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843~r.)\eTD\eTR
+\eTABLE
+
+\startsection[title={Gore gwiazda Jezusowi}] %{{{1
+% http://bibliotekapiosenki.pl/Gore_gwiazda_Jezusowi
+\author{karmelitanki}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+Gore gwiazda Jezusowi w~obłoku, w~obłoku,
+Józef z~Panną asystują przy boku, przy boku.\stopstanza
+\startrefrain
+    Hojże ino dyny dyna,
+    narodził się Bóg-Dziecina
+    w~Betlejem, Betlejem.\stoprefrain
+
+\startstanza
+Wół i~osioł w~parze służą przy żłobie, przy żłobie,
+huczą, buczą delikatnej osobie, osobie.\stopstanza
+\startrefrain
+    Hojże ino...\stoprefrain
+
+\startstanza
+Pastuszkowie z~podarunki przybiegli, przybiegli,
+wkoło szopę o~północy obiegli, obiegli.\stopstanza
+\startrefrain
+    Hojże ino...\stoprefrain
+
+\startstanza
+Anioł Pański, sam ogłosił te dziwy, te dziwy,
+których oni nie słyszeli jak żywi, jak żywi.\stopstanza
+\startrefrain
+    Hojże ino...\stoprefrain
+
+\startstanza
+Anioł Pański kuranciki wycina, wycina,
+skąd pociecha dla człowieka jedyna, jedyna.\stopstanza
+\startrefrain
+    Hojże ino...\stoprefrain
+
+\startstanza
+Już Maryja Jezuleńka powiła, powiła,
+nam wesele i~pociecha stąd miła, stąd miła.\stopstanza
+\startrefrain
+    Hojże ino...\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kantyczkach karmelitańskich (XVIII~w.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843~r.)\eTD\eTR
+\eTABLE
+
+\startsection[title={Gwiazdka na wschodzie}] %{{{1
+\author{Smolarkiewicz, ks. Władysław}
+
+\startstanza
+Gwiazdka na wschodzie tak jasno lśni
+i~mruga na nas, byśmy tam szli,
+gdzie jako zorza Dziecina Boża
+na świat cały rzuca blask.\stopstanza
+
+\startstanza
+Łączmy głosy w~jeden ton
+i~serc naszych nieśmy plon,
+gdzie jako zorza Dziecina Boża
+na świat cały rzuca blask.\stopstanza
+
+\startstanza
+Wyciąga rączki do grzesznych sług,
+w~maleńkim ciele potężny Bóg;
+berła i~łany, nędza, łachmany
+otaczają Jego żłób.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD „Pieśni Bożego Narodzenia. Kolędy kościelne i~domowe\eTD\eTR
+    \bTR\bTD\eTD\bTD oraz doroczne pieśni kościelne.”, ks. Władysław Smolarkiewicz\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Hej, w~dzień Narodzenia}] %{{{1
+% http://bibliotekapiosenki.pl/Hej_w_dzien_Narodzenia
+\author{Staniątki}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+Hej, w~dzień narodzenia Syna Jedynego
+Ojca Przedwiecznego, Boga prawdziwego,
+wesoło śpiewajmy, chwałę Bogu dajmy.\stopstanza
+\startrefrain
+    Hej kolęda, kolęda!\stoprefrain
+
+\startstanza
+Panna porodziła niebieskie Dzieciątko,
+w~żłobie położyła małe pacholątko;
+pasterze śpiewają, na multankach grają.\stopstanza
+\startrefrain
+    Hej kolęda, kolęda!\stoprefrain
+
+\startstanza
+Skoro pastuszkowie o~tym usłyszeli,
+zaraz do Betlejem czem prędzej bieżeli,
+witając Dzieciątko, małe pacholątko.\stopstanza
+\startrefrain
+    Hej kolęda, kolęda!\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kancjonałach benedyktynek staniąteckich (1707~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Jezusa narodzonego}] %{{{1
+\author{Keller, Szymon}
+\composer{Walczyński, ks. Franciszek}
+
+\startstanza
+Jezusa narodzonego wszyscy witajmy,
+Jemu po kolędzie dary wzajem oddajmy.\stopstanza
+\startrefrain
+    Oddajmy wesoło, skłaniajmy swe czoło,
+    Panu naszemu.\stoprefrain
+
+\startstanza
+Oddajmy za złoto wiarę, czyniąc wyznanie,
+że to Bóg i~Człowiek prawy leży na sianie.\stopstanza
+\startrefrain
+    Oddajmy wesoło...\stoprefrain
+
+\startstanza
+Oddajmy też za kadzidło Panu nadzieję,
+że Go będziem widzieć w~niebie, mówiąc to śmiele.\stopstanza
+\startrefrain
+    Oddajmy wesoło...\stoprefrain
+
+\startstanza
+Oddajmy za mirrę miłość na dowód tego,
+że Go nad wszystko kochamy z~serca całego.\stopstanza
+\startrefrain
+    Oddajmy wesoło...\stoprefrain
+
+\startstanza
+Przyjmij, Jezu, po kolędzie te nasze dary,
+przyjmij serca, dusze nasze za swe ofiary.\stopstanza
+\startrefrain
+    Byśmy kiedyś w~niebie posiąść mogli Ciebie,
+    posiąść mogli Ciebie na wieki wieków.\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD Szymon Keller (1868~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD ks. Franciszek Walczyński (1884~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Jezus malusieńki}] %{{{1
+% http://bibliotekapiosenki.pl/Jezus_malusienki_%28koleda%29
+\author{karmelitanki}
+\author{Staniątki}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+Jezus malusieńki leży wśród stajenki,
+płacze z~zimna, nie dała mu Matusia sukienki.\stopstanza
+
+\startstanza
+Bo uboga była, rąbek z~głowy zdjęła,
+w~który Dziecię owinąwszy siankiem Je okryła.\stopstanza
+
+\startstanza
+Nie ma kolebeczki ani poduszeczki,
+we żłobie Mu położyła siana pod główeczki.\stopstanza
+
+\startstanza
+Dziecina się kwili, Matuleńka lili,
+w~nóżki zimno, żłobek twardy, stajenka się chyli.\stopstanza
+
+\startstanza
+Matusia truchleje, serdeczne łzy leje:
+o~mój Synu, wola Twoja, nie moja się dzieje.\stopstanza
+
+\startstanza
+Przestań płakać, proszę, bo żalu nie zniosę,
+dosyć go mam z~męki Twojej, którą w~sercu noszę.\stopstanza
+
+\startstanza
+Józefie stareńki, daj z~ogniem fajerki
+grzać Dziecinę, sam co prędzej podpieraj stajenki.\stopstanza
+
+\startstanza
+Pokłon oddawajmy, Bogiem go wyznajmy,
+to Dzieciątko ubożuchne ludziom ogłaszajmy.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kancjonale Gąsiorowskiej ze Staniątek (1754~r.)\eTD\eTR
+    \bTR\bTD\eTD\bTD i~w~kantyczkach karmelitanek z~Krakowa (XVIII~w.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Lulajże, Jezuniu}] %{{{1
+% http://bibliotekapiosenki.pl/Lulajze_Jezuniu_%28koleda%29
+\author{Staniątki}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+Lulajże, Jezuniu, moja perełko,
+lulaj ulubione me pieścidełko.\stopstanza
+\startrefrain
+    Lulajże, Jezuniu, lulajże lulaj!
+    A~ty Go, Matulu, w~płaczu utulaj\stoprefrain
+
+\startstanza
+Zamknijże znużone płaczem powieczki,
+utulże zemdlone łkaniem usteczki.\stopstanza
+\startrefrain
+    Lulajże, Jezuniu...\stoprefrain
+
+\startstanza
+Lulajże, piękniuchny nasz aniołeczku,
+lulajże, wdzięczniuchny świata kwiateczku.\stopstanza
+\startrefrain
+    Lulajże, Jezuniu...\stoprefrain
+
+\fillersmall
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD (II~poł.~XVIIw.); w~kancjonale Gąsiorowskiej ze Staniątek (1754~r.)\eTD\eTR
+    \bTR\bTD\eTD\bTD i~w~kancjonałach franciszkańskich (XVIII~w.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Pastorałki i~kolędy}, ks. Michał Mioduszewski CM (1843~r.)\eTD\eTR
+\eTABLE
+
+
+% Filler: świeczka {{{1
+\page[yes]
+\strut
+\vskip 0pt plus 2fill%
+\hskip 0pt plus 3fill%
+\externalfigure[rysunki/świeczka][width=0.5\textwidth]%
+\hskip 0pt plus 2fill\strut%
+\vskip 0pt plus 1fill%
+
+
+\startsection[title={Mędrcy świata}] %{{{1
+% http://bibliotekapiosenki.pl/Medrcy_swiata
+\author{Bortkiewicz, Stefan}
+\composer{Odelgiewicz, ks.~Zygmunt}
+
+\startstanza
+Mędrcy świata, monarchowie,
+gdzie śpiesznie dążycie?
+Powiedzcież nam, Trzej Królowie,
+chcecie widzieć Dziecię?
+Ono w~żłobie nie ma tronu
+i~berła nie dzierży,
+a~proroctwo jego zgonu
+już się w~świecie szerzy.\stopstanza
+
+\startstanza
+Mędrcy świata, złość okrutna
+Dziecię prześladuje,
+wieść to straszna, wieść to smutna,
+Herod spisek knuje.
+Nic monarchów nie odstrasza,
+do Betlejem spieszą,
+gwiazda Zbawcę im ogłasza,
+nadzieją się cieszą.\stopstanza
+
+\startstanza
+Przed Maryją stają społem,
+niosą Panu dary.
+Przed Jezusem biją czołem,
+składają ofiary.
+Trzykroć szczęśliwi królowie,
+któż wam nie zazdrości?
+Cóż my damy, kto nam powie,
+pałając z~miłości?\stopstanza
+
+\page[yes]
+
+\startstanza
+Oto jak każą kapłani,
+damy dar troisty:
+modły, pracę niosąc w~dani
+i~żar serca czysty.
+To kadzidło, mirrę, złoto,
+niesiem, Jezu szczerze.
+Co dajemy Ci z~ochotą
+od nas przyjm w~ofierze.\stopstanza
+
+%\vfill
+\fillersmall
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD Stefan Bortkiewicz (ok.~1870~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD ks. Zygmunt Odelgiewicz (XIX~w.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Mizerna cicha}] %{{{1
+% http://bibliotekapiosenki.pl/Mizerna_cicha_stajenka
+\author{Lenartowicz, Teofil}
+\composer{Wrzeciono, Jakub}
+\composer{Gall, Jan Karol}
+
+\startstanza
+Mizerna, cicha, stajenka licha,
+pełna niebieskiej chwały;
+oto leżący, przed nami śpiący
+w~promieniach Jezus mały.\stopstanza
+
+\startstanza
+Nad nim Anieli w~locie stanęli
+i~pochyleni klęczą
+z~włosy złotymi, z~skrzydły białymi
+pod malowaną tęczą.\stopstanza
+
+\startstanza
+Wielkie zdziwienie, wszelkie stworzenie,
+cały świat orzeźwiony;
+Mądrość mądrości, Światłość światłości,
+Bóg-człowiek tu wcielony!\stopstanza
+
+\startstanza
+I~oto mnodzy, ludzie ubodzy
+radzi oglądać Pana;
+pełni natchnienia, pełni zdziwienia
+upadli na kolana.\stopstanza
+
+\startstanza
+Długo czekali, długo wzdychali,
+aż niebo rozgorzało,
+piekło zawarte, niebo otwarte,
+Słowo się Ciałem stało.\stopstanza
+
+%\page[yes]
+\startstanza
+Hej, ludzie prości, Bóg z~nami gości,
+skończony czas niedoli.
+On daje siebie, chwała na niebie,
+Mir ludziom dobrej woli.\stopstanza
+
+\startstanza
+Radość na ziemi, bo nad wszystkimi
+roztacza blask rumiany.
+Przepaść rozwarta, upadek czarta,
+Zstępuje Pan nad pany.\stopstanza
+
+%\fillersmall
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD Teofil Lenartowicz (1849~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD Jakub Wrzeciono\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD Jan Karol Gall\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Nowy Rok bieży}] %{{{1
+% http://bibliotekapiosenki.pl/Nowy_rok_biezy
+\author{Szlichtyn, Jan}
+
+\startstanza
+Nowy rok bieży, w~jasełkach leży,
+a~kto, kto?
+Dzieciątko małe, dajcie mu chwałę,
+na ziemi.\stopstanza
+
+\startstanza
+Leży Dzieciątko jako jagniątko,
+a~gdzie, gdzie?
+W~Betlejem mieście, tam się pospieszcie,
+znajdziecie.\stopstanza
+
+\startstanza
+Jak Go poznamy, gdy Go nie znamy,
+Jezusa?
+Podło uwity, nie w~aksamity,
+ubogo.\stopstanza
+
+\startstanza
+Wół, osioł ziewa, parą zagrzewa,
+a~jakoż?
+Klęcząc, padając, chwałę oddając
+przy żłobie.\stopstanza
+
+\startstanza
+Anieli grają, wdzięcznie śpiewają,
+a~co, co?
+Niech chwała będzie, zawsze i~wszędzie
+Dzieciątku.\stopstanza
+
+%\page[yes]
+\startstanza
+Królowie jadą z~wielką gromadą,
+a~skąd, skąd?
+Od wschodu słońca, szukają końca,
+zbawienia.\stopstanza
+
+\startstanza
+Skarb otwierają, dary dawają,
+a~komu?
+Wielcy Królowie, możni Panowie,
+Dzieciątku.\stopstanza
+
+%\fillersmall
+\vfill
+
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~jezuickich \quote{Pieśniach nabożnych} (1745~r.)\eTD\eTR
+    \bTR\bTD\eTD\bTD i~w~rozszerzeniu \quote{Kantyczek pieśni nabożnych} Jana Szlichtyna (1785~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD autor nieznany\eTD\eTR
+\eTABLE
+
+
+\startsection[title={O~gwiazdo betlejemska}] %{{{1
+\author{Odelgiewicz, ks.~Zygmunt}
+\author{Orszulik, Antoni}
+\author{Siedlecki, ks. Jan, CM}
+
+\startstanza
+O~gwiazdo Betlejemska, zaświeć na niebie mym.
+% w oryginale "Tak szukam" XXX
+Ja szukam Cię wśród nocy, tęsknię za światłem Twym.
+Zaprowadź do stajenki, leży tam Boży Syn,
+Bóg-człowiek z~Panny świętej, dany na okup win.\stopstanza
+
+\startstanza
+O~nie masz Go już w~szopce, nie masz Go w~żłóbku tam,
+więc gdzie pójdziemy Chryste? Gdzie się ukryłeś nam?
+Pójdziemy przed ołtarze, wzniecić miłości żar
+i~hołd Ci niski oddać: to jest nasz wszystek dar.\stopstanza
+
+\startstanza
+Ja nie wiem, o~mój Panie, któryś miał w~żłobie tron,
+czy dusza moja biedna milsza Ci jest, niż on?
+Ulituj się nade mną, błagać Cię kornie śmiem,
+gdyś stajnią nie pogardził, nie gardź i~sercem mym.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD prawdopodobnie ks.~Zygmunt Odelgiewicz w~oprac. Antoniego Orszulika\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Śpiewnik kościelny} ks.~Jan Siedlecki CM (1928~r.)\eTD\eTR
+\eTABLE
+
+
+% Filler: gwiazdka {{{1
+\page[yes]\strut
+\vskip 0pt plus 3fill
+\startalignment[middle]\dontleavehmode
+\externalfigure[rysunki/gwiazdka][align=middle,width=0.75\textwidth,]%
+\stopalignment
+\vskip 0pt plus 2fill
+
+ 
+\startsection[title={Pasterze mili, coście widzieli}] %{{{1
+% http://bibliotekapiosenki.pl/Pasterze_mili
+\author{Szlichtyn, Jan}
+\author{Staniątki}
+
+\startstanza
+Pasterze mili, coście widzieli?
+Widzieliśmy maleńkiego Jezusa narodzonego,
+Syna Bożego.\stopstanza
+
+\startstanza
+Co za pałac miał, gdzie gospodą stał?
+Szopa bydłu przyzwoita i~to jeszcze źle pokryta
+pałacem była.\stopstanza
+
+\startstanza
+Jakie łóżeczko, miał Paniąteczko?
+Marmur twardy, żłób kamienny, na tem depozyt zbawienny
+spoczywał łożu.\stopstanza
+
+\startstanza
+Co za obicie miało to Dziecię?
+Wisząc spod strzech pajęczyna, Boga i~Maryi syna
+obiciem była.\stopstanza
+
+\startstanza
+W~jakiej odzieży Pan nieba leży?
+Za purpurę, perły drogie ustroiła Go w~ubogie
+pieluszki nędza.\stopstanza
+
+\startstanza
+Czyli w~wygodach, czy spał w~swobodach?
+Na barłogu, ostrem sianie, delikatne spało Panię
+a~nie w~łabędziach.\stopstanza
+
+\startstanza
+Kto asystował? Kto Go pilnował?
+Wół i~osieł przyklękali, parą swą Go zagrzewali
+dworzanie Jego.\stopstanza
+
+\startstanza
+Jakie kapele nuciły trele?
+Aniołowie Mu śpiewali, my na dudkach przygrywali
+skoczno wesoło.\stopstanza
+
+\page[yes]
+\startstanza
+Kto więcej śpieszył, by Dziecię cieszył?
+Józef stary z~Panieneczką za melodyjną piosneczką
+Dziecię cieszyli.\stopstanza
+
+\startstanza
+Jakieście dary dali, ofiary?
+Sercaśmy własne oddali a~odchodząc poklękali,
+czołem Mu bili.\stopstanza
+
+\fillersmall
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kantyczkach karmelitańskich (XVIII~w.)\eTD\eTR
+    \bTR\bTD\eTD\bTD i~w~\quote{Kantyczkach pieśni nabożnych} Jana Szlichtyna (1785~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD w~kancjonałach~benedyktynek~staniąteckich\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Pójdźmy wszyscy do stajenki}] %{{{1
+% http://bibliotekapiosenki.pl/Pojdzmy_wszyscy_do_stajenki
+\author{Mioduszewski, ks. Michał, CM+„Śpiewnik kościelny”}
+\author{Siedlecki, ks. Jan, CM}
+\author{Kraków}
+
+\startstanza
+Pójdźmy wszyscy do stajenki,
+do Jezusa i~Panienki,
+powitajmy Maleńkiego
+i~Maryję Matkę Jego.\stopstanza
+
+\startstanza
+Witaj, Jezu ukochany,
+od patriarchów czekany,
+od proroków ogłoszony,
+od narodów upragniony.\stopstanza
+
+\startstanza
+Witaj, Dzieciąteczko w~żłobie,
+wyznajemy Boga w~Tobie,
+coś się narodził tej nocy,
+byś nas wyrwał z~czarta mocy.\stopstanza
+
+\startstanza
+Witaj Jezu nam zjawiony,
+witaj dwakroć narodzony,
+raz z~Ojca przed wieków wiekiem
+a~teraz z~matki człowiekiem.\stopstanza
+
+\startstanza
+Któż to słyszał takie dziwy?
+Tyś człowiek i~Bóg prawdziwy,
+Ty łączysz w~boskiej osobie
+dwie natury różne sobie.\stopstanza
+
+%\page[yes]
+\startstanza
+O~szczęśliwi pastuszkowie!
+Któż radość waszą wypowie?
+Czego Ojcowie żądali
+wyście pierwsi oglądali.\stopstanza
+
+\startstanza
+Święta Panno, twa przyczyna
+niech nam wyjedna u~Syna,
+by to jego narodzenie
+zapewniło nam zbawienie.\stopstanza
+
+%\fillersmall
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD \quote{Dodatek do Śpiewnika kościelnego} ks. M. Mioduszewskiego CM (1842~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD z~Krakowa; \quote{Śpiewniczek}, ks. Jan Siedlecki (1878~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Przybieżeli do Betlejem\\(31.~symfonia anielska)}, %{{{1
+    bookmark={Przybieżeli do Betlejem}]
+% http://bibliotekapiosenki.pl/Pojdzmy_wszyscy_do_stajenki
+\author{Żabczyc, Jan}
+\author{Mioduszewski, ks. Michał, CM+„Pastorałki i kolędy”}
+
+\startstanza
+Przybieżeli do Betlejem pasterze,
+grają skocznie Dzieciąteczku na lirze.\stopstanza
+\startrefrain
+    Chwała na wysokości, chwała na wysokości,
+    a~pokój na ziemi.\stoprefrain
+
+\startstanza
+Oddawali swe ukłony w~pokorze
+Tobie z~serca ochotnego, o~Boże!\stopstanza
+\startrefrain
+     Chwała na wysokości...\stoprefrain
+
+\startstanza
+Anioł Pański sam ogłosił te dziwy,
+których oni nie słyszeli, jak żywi.\stopstanza
+\startrefrain
+    Chwała na wysokości...\stoprefrain
+
+\startstanza
+Dziwili się napowietrznej muzyce
+i~myśleli, co to będzie za Dziecię?\stopstanza
+\startrefrain
+    Chwała na wysokości...\stoprefrain
+
+\startstanza
+Oto mu się wół i~osioł kłaniają,
+trzej królowie podarunki oddają.\stopstanza
+\startrefrain
+    Chwała na wysokości...\stoprefrain
+
+\startstanza
+I~anieli gromadami pilnują,
+Panna czysta wraz z~Józefem piastują.\stopstanza
+\startrefrain
+    Chwała na wysokości...\stoprefrain
+
+%\page[yes]
+\startstanza
+Poznali Go Mesyjaszem być prawym,
+narodzonym dzisiaj Panem łaskawym.\stopstanza
+\startrefrain
+    Chwała na wysokości...\stoprefrain
+
+\startstanza
+My go także Bogiem, Zbawcą już znamy
+i~z~całego serca wszyscy kochamy.\stopstanza
+\startrefrain
+    Chwała na wysokości...\stoprefrain
+
+%\fillersmall
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD \quote{Symfonie anielskie}, Jan Żabczyc (1630~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Dodatek do Pastorałek i~kolęd}, ks. Michał Mioduszewski CM (1853~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Triumfy Króla niebieskiego}] %{{{1
+% http://bibliotekapiosenki.pl/Triumfy_Krola_Niebieskiego
+\author{Staniątki}
+\author{Siedlecki, ks. Jan, CM}
+
+\startstanza
+Triumfy Króla niebieskiego
+zstąpiły z~nieba wysokiego.
+Pobudziły pasterzów,
+dobytku swego stróżów,
+śpiewaniem, śpiewaniem, śpiewaniem.\stopstanza
+
+\startstanza
+Chwała bądź Bogu w~wysokości
+a~ludziom pokój na niskości.
+Narodził się Zbawiciel,
+dusz ludzkich Odkupiciel,
+na ziemi, na ziemi, na ziemi.\stopstanza
+
+\startstanza
+Zrodziła Maryja Dziewica
+wiecznego Boga bez rodzica.
+By nas z~piekła wybawił
+a~w~niebieskich postawił
+pałacach, pałacach, pałacach.\stopstanza
+
+\startstanza
+Pasterze w~podziwieniu stają,
+triumfu przyczynę badają.
+Co się nowego dzieje,
+że tak światłość jaśnieje,
+nie wiedząc, nie wiedząc, nie wiedząc.\stopstanza
+
+\startstanza
+Że to Bóg, gdy się dowiedzieli,
+swej trzody w~polu odbieżeli
+spiesząc na powitanie
+do Betlejemskiej stajni
+Dzieciątka, Dzieciątka, Dzieciątka.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kancjonałach benedyktynek staniąteckich (XVII~w.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Śpiewniczek}, ks. Jan Siedlecki CM (1879~r.)\eTD\eTR
+\eTABLE
+
+
+% Filler: dzwonek {{{1
+\page[yes]\strut
+\vskip 0pt plus 3fill
+\startalignment[middle]\dontleavehmode
+\externalfigure[rysunki/dzwonek][align=middle,width=0.75\textwidth,]%
+\stopalignment
+\vskip 0pt plus 2fill
+
+
+\startsection[title={W~dzień Bożego Narodzenia}] %{{{1
+% http://bibliotekapiosenki.pl/W_dzien_Bozego_Narodzenia_%28koleda%29
+\author{Staniątki}
+\author{Szlichtyn, Jan}
+\composer{Szumlański, Feliks}
+
+\startstanza
+W~dzień Bożego Narodzenia
+radość wszelkiego stworzenia,
+ptaszki w~górę podlatują,
+Jezusowi wyśpiewują,
+wyśpiewują.\stopstanza
+
+\startstanza
+Słowik zaczyna dyszkantem,
+szczygieł mu wtóruje altem,
+szpak tenorem krzyknie czasem,
+a~gołąbek gruchnie basem,
+gruchnie basem.\stopstanza
+
+\startstanza
+Wróbel, ptaszek nieboraczek,
+uziąbłszy śpiewa jak żaczek,
+Dziw, dziw, dziw, dziw, dziw nad dziwy,
+narodził się Bóg prawdziwy,
+Bóg prawdziwy.\stopstanza
+
+\startstanza
+A~mazurek ze swym synem
+tak świergocą za kominem;
+cierp, cierp, cierp, cierp, miły Panie
+póki mróz ten nie ustanie, % tak się śpiewa u nas w rodzinie
+nie ustanie.\stopstanza
+
+\startstanza
+I~żurawie w~swoje nosy
+wykrzykują pod niebiosy;
+czajka w~górę podlatuje,
+chwałę Bogu wyśpiewuje,
+wyśpiewuje.\stopstanza
+
+\page[yes]
+\startstanza
+Sroka wlazła na jedlinę
+odarła sobie łysinę
+i~choć gołe świeci czoło,
+śpiewa jednak dość wesoło,
+dość wesoło.\stopstanza
+
+\startstanza
+Kur na grzędzie krzyczy wszędzie:
+wstańcie, ludzie, bo dzień będzie!
+Do Betlejem pospieszajcie,
+Boga w~ciele oglądajcie,
+oglądajcie.\stopstanza
+
+\fillersmall% FIXME ptaszek
+
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kantyczkach karmelitańskich (XVIII~w.)\eTD\eTR
+    \bTR\bTD\eTD\bTD i~\quote{Kantyczki pieśni nabożnych} Jana Szlichtyna (1767~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD Feliks Szumlański (XIX~w.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Wesołą nowinę}] %{{{1
+% http://bibliotekapiosenki.pl/Wesola_nowine
+\author{Siedlecki, ks. Jan, CM}
+\composer{Wygrzewalski, Józef}
+
+\startstanza
+Wesołą nowinę, bracia, słuchajcie,
+niebieską Dziecinę ze mną witajcie.\stopstanza
+\startrefrain
+    Jak miła ta nowina!
+    Mów, gdzie jest ta Dziecina?
+    Byśmy tam pobieżeli i~ujrzeli.\stoprefrain
+
+\startstanza
+Bogu chwałę wznoszą na wysokości,
+pokój ludziom głoszą duchy światłości.\stopstanza
+\startrefrain
+    Jak miła...\stoprefrain
+
+\startstanza
+Panna nam powiła Boskie Dzieciątko,
+pokłonem uczciła to niemowlątko.\stopstanza
+\startrefrain
+    Jak miła...\stoprefrain
+
+\startstanza
+Którego zrodziła, Bogiem uznała,
+i~Panną, jak była, Panną została.\stopstanza
+\startrefrain
+    Jak miła...\stoprefrain
+
+\startstanza
+Królowie na wschodzie już to poznali
+i~w~judzkim narodzie szukać jechali.\stopstanza
+\startrefrain
+    Jak miła...\stoprefrain
+
+\startstanza
+Gwiazda najśliczniejsza ich oświeciła,
+do szopy w~Betlejem zaprowadziła.\stopstanza
+\startrefrain
+    Jak miła...\stoprefrain
+
+\startstanza
+Znaleźli to Dziecię i~Matkę Jego.
+Tam idźcie, znajdziecie Syna Bożego!\stopstanza
+\startrefrain
+    Jak miła...\stoprefrain
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD \quote{Śpiewniczek}, ks.~Jan Siedlecki CM (1878~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD Józef Wygrzewalski\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Wśród nocnej ciszy}] %{{{1
+% http://bibliotekapiosenki.pl/Wsrod_nocnej_ciszy_%28koleda%29
+
+\startstanza
+Wśród nocnej ciszy głos się rozchodzi:
+Wstańcie, pasterze, Bóg się wam rodzi!
+Czem prędzej się wybierajcie,
+do Betlejem pośpieszajcie, przywitać Pana.\stopstanza
+
+\startstanza
+Poszli, znaleźli Dzieciątko w~żłobie
+z~wszystkimi znaki danymi sobie.
+Jako Bogu cześć Mu dali,
+a~witając zawołali z~wielkiej radości:\stopstanza
+
+\startstanza
+Ach, witaj Zbawco z~dawna żądany,
+cztery tysiące lat wyglądany.
+Na Ciebie króle, prorocy
+czekali a~Tyś tej nocy nam się objawił.\stopstanza
+
+\startstanza
+I~my czekamy na Ciebie, Pana,
+a~skoro przyjdziesz na głos kapłana
+padniemy na twarz przed Tobą
+wierząc żeś jest pod osłoną chleba i~wina.\stopstanza
+
+\vfill
+% FIXME
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD \quote{Dodatek II i~III do Śpiewnika kościelnego},\eTD\eTR
+    \bTR\bTD\eTD\bTD ks.~M.~Mioduszewski CM (1853~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={W~żłobie leży}] %{{{1
+% http://bibliotekapiosenki.pl/W_zlobie_lezy
+
+\startstanza
+W~żłobie leży, któż pobieży
+kolędować Małemu?
+Jezusowi, Chrystusowi,
+dziś nam narodzonemu?
+Pastuszkowie przybywajcie,
+Jemu wdzięcznie przygrywajcie,
+jako Panu naszemu.\stopstanza
+
+\startstanza
+My zaś sami z~piosneczkami
+za wami pospieszymy,
+A~tak tego, maleńkiego,
+niech wszyscy zobaczmy:
+Jak ubogo narodzony,
+płacze w~stajni położony,
+więc go dziś ucieszymy.\stopstanza
+
+\startstanza
+Naprzód tedy, niechaj wszędy
+zabrzmi świat w~wesołości,
+że posłany nam jest dany
+Emmanuel w~niskości!
+Jego tedy przywitajmy,
+z~aniołami zaśpiewajmy:
+Chwała na wysokości!\stopstanza
+
+\startstanza
+Witaj, Panie, cóż się stanie,
+że rozkosze niebieskie
+opuściłeś a~zstąpiłeś
+na te niskości ziemskie?
+Miłość Moja to sprawiła,
+by człowieka wywyższyła
+pod nieba emiprejskie.\stopstanza
+
+\startstanza
+Czem w~żłobeczku, nie w~łóżeczku,
+na siankuś położony?
+Czem z~bydlęty, nie z~Panięty,
+w~stajni jesteś złożony?
+By człek sianu przyrównany,
+grzesznik bydlęciem nazwany,
+przeze Mnie był zbawiony.\stopstanza
+
+\fillersmall
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD w~kancjonałach benedyktynek staniąteckich (1707~r.)\eTD\eTR
+\eTABLE
+
+
+
+\startsection[title={Z~narodzenia Pana}] %{{{1
+% http://bibliotekapiosenki.pl/Z_narodzenia_Pana
+\author{Mioduszewski, ks. Michał, CM+„Śpiewnik kościelny”}
+
+\startstanza
+Z~narodzenia Pana dzień dziś wesoły,
+wyśpiewują chwałę Bogu żywioły.
+Radość ludzi wszędzie słynie,
+Anioł budzi przy dolinie
+pasterzów, co paśli pod borem woły.\stopstanza
+
+\startstanza
+Wypada wśród nocy ogień z~obłoku,
+dumają pasterze w~takim widoku.
+Każdy pyta: co się dzieje?
+Czy nie świta? Czy nie dnieje?
+Skąd ta łuna bije tak miła oku?\stopstanza
+
+\startstanza
+Ale gdy Anielskie głosy słyszeli,
+zaraz do Betlejem prosto bieżeli.
+Tam witali w~żłobie Pana,
+poklękali na kolana
+i~oddali dary, co z~sobą wzięli.\stopstanza
+
+\startstanza
+Odchodzą z~Betlejem pełni wesela,
+że już Bóg wysłuchał próśb Izraela,
+gdy tej nocy to widzieli,
+co prorocy widzieć chcieli;
+w~ciele ludzkim Boga i~Zbawiciela.\stopstanza
+
+\startstanza
+I~my z~pastuszkami dziś się radujmy,
+chwałę z~Aniołami wraz wyśpiewujmy.
+Bo ten Jezus z~nieba dany,
+weźmie nas między niebiany,
+tylko Go z~całego serca miłujmy.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD \quote{Dodatek do Śpiewnika kościelnego},\eTD\eTR
+    \bTR\bTD\eTD\bTD ks. Michał Mioduszewski CM (1842~r.)\eTD\eTR
+\eTABLE
+
+
+% }}}
+
+% Dodatek {{{1
+%\page[yes]\strut
+%\page[empty]
+\page[odd]\strut
+\setupheader[state=high]
+\setupfooter[state=high]
+\starttitle[title={Dodatek}]
+
+\page[empty,odd]
+
+
+\startsection[title={A~czemuż mój Jezus}] %{{{1
+% http://bibliotekapiosenki.pl/A_czemuz_moj_Jezus_tak_ubogo_lezy
+\author{Mioduszewski, ks. Michał, CM+„Śpiewnik kościelny”}
+\author{Niemcy}
+
+\startstanza
+A~czemuż mój Jezus tak ubogo leży?
+Ani po królewsku, ni w~drogiej odzieży?
+Znać dlatego, by grzesznika,
+czartowskiego niewolnika,
+od piekła wybawił, przez ubóstwo zbawił.\stopstanza
+
+\startstanza
+Czemuż nie w~pałacach rodzi się Dziecina,
+wszak świat, niebo, ziemia, Jego jest dziedzina,
+ale w~stajence ubogiej,
+na sianeczku w~ten mróz srogi?
+W~kamiennym żłóbeczku zimno Paniąteczku.\stopstanza
+
+\startstanza
+A~cóż za dworzany ma Boskie Dzieciątko,
+Syn Ojca Wiecznego, małe Pacholątko?
+Osieł z~wołem to dworzany,
+zważ człeku, Pana nad Pany,
+bydlęta Mu służą, jak Bogu posłużą.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD \quote{Śpiewnik kościelny}, ks. Michał Mioduszewski CM (1838~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD niemiecka (XVI~w.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Ach witajże pożądana}] %{{{1
+% http://bibliotekapiosenki.pl/Ach_witajze_pozadana
+\author{Mioduszewski, ks. Michał, CM+„Śpiewnik kościelny”}
+\author{Siedlecki, ks. Jan, CM}
+
+\startstanza
+Ach, witajże, pożądana perło droga z~nieba,
+gdy cały świat upragniony anielskiego chleba!
+W~ciele ludzkiem Bóg jest skryty,
+na pokarm ludziom obfity;
+Ciałem karmi, Krwią napoi,
+by człowieka w~chwale swojej
+między wybranemi policzył.
+ 
+Niedośćże to Boskie dziecię żeś na świecie z~nami?
+Ale jeszcze zimno cierpisz między bydlętami!
+Malusieńki Jezu w~żłobie,
+co za wielka miłość w~Tobie!
+Czyliż nie są wielkie dziwy:
+w~ludzkiem ciele Bóg prawdziwy
+przyszedł na zbawienie człowieka.\stopstanza
+
+\startstanza
+O~miłości niepojęta, jakżeś wielka była!
+lżeś się tu z~niebieskiego tronu sprowadziła,
+a~to do pustej szopiny,
+o~niesłychane nowiny!
+Ach pokorny baraneczku,
+Twój odpoczynek w~żłobeczku,
+z~dalekiej podróży niebieskiej.\stopstanza
+
+\startstanza
+Niech Ci, Jezu, będą dzięki za twe narodzenie,
+bo przez nie zacząłeś nasze sprawować zbawienie.
+Miłość która to sprawiła,
+iż Cię do nas sprowadziła,
+niech swą iskrą nas zapali
+abyśmy cię miłowali
+teraz i~bez końca w~wieczności.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD \quote{Dodatek do Śpiewnika kościelnego}, ks. M. Mioduszewski CM (1841~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD \quote{Śpiewniczek}, ks. Jan Siedlecki CM (1928~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Nad Betlejem w~ciemną noc}] %{{{1
+\author{Francja}
+
+\startstanza
+Nad Betlejem w~ciemną noc
+śpiewał pieśń Aniołów chór.
+Ich radosny, cudny głos
+odbijało echo gór.
+Gloria in excelsis Deo!\stopstanza
+
+\startstanza
+Pastuszkowie jaką pieśń
+słyszeliście nocy tej?
+Jakaż to radosna wieść
+była tam natchnieniem jej?
+Gloria in excelsis Deo!\stopstanza
+
+\startstanza
+Do Betlejem prędko śpiesz,
+zostaw stada pośród gór,
+gdyż anielska głosi wieść,
+że się tam narodził Król.
+Gloria in excelsis Deo!\stopstanza
+
+\startstanza
+W~twardym żłobie leży tam
+Jezus, nieba, ziemi Pan.
+Chciejmy Mu w~pokorze wznieść
+uwielbienie, chwałę cześć.
+Gloria in excelsis Deo!\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD \quote{Choix de cantiques offerts aux éleves des écoles chrétiennes} (1846~r.)\eTD\eTR
+    \bTR\bTD\eTD\bTD oraz \quote{Choix de cantiques sur des airs nouveaux} (1848~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD francuska (XVIII~w.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Nie było miejsca dla Ciebie}] %{{{1
+% http://bibliotekapiosenki.pl/Nie_bylo_miejsca_dla_ciebie
+\author{Jeż, o. Mateusz, SJ}
+\composer{Łaś, o. Józef, SJ}
+
+\startstanza
+Nie było miejsca dla Ciebie
+w~Betlejem w~żadnej gospodzie
+i~narodziłeś się, Jezu,
+w~stajni, w~ubóstwie i~chłodzie.\stopstanza
+
+\startstanza
+Nie było miejsca, choć zszedłeś
+jako Zbawiciel na ziemię,
+by wyrwać z~czarta niewoli
+nieszczęsne Adama plemię.\stopstanza
+
+\startstanza
+Nie było miejsca, choć chciałeś
+ludzkość przytulić do łona
+i~podać z~krzyża grzesznikom
+zbawcze, skrwawione ramiona.\stopstanza
+
+\startstanza
+Nie było miejsca, choć szedłeś
+ogień miłości zapalić
+i~przez swą mękę najdroższą
+świat od zagłady ocalić.\stopstanza
+
+\startstanza
+Gdy liszki mają swe jamy
+i~ptaszki swoje gniazdeczka,
+dla Ciebie brakło gospody,
+Tyś musiał szukać żłóbeczka.\stopstanza
+
+\startstanza
+A~dzisiaj czemu wśród ludzi
+tyle łez, jęków, katuszy?
+Bo nie ma miejsca dla Ciebie
+w~niejednej człowieczej duszy.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD o. Mateusz Jeż SJ (1932~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD o. Józef Łaś SJ; „Największa kantyczka z~nutami \eTD\eTR
+    \bTR\bTD\eTD\bTD na 2-3 głosy”, Józef Albin Gwoździkowski (1938~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Północ już była}] %{{{1
+% http://bibliotekapiosenki.pl/Polnoc_juz_byla
+\author{karmelitanki}
+\author{Szlichtyn, Jan}
+
+\startstanza
+Północ już była, gdy się zjawiła
+nad bliską doliną jasna łuna,
+którą zoczywszy i~zobaczywszy
+krzyknął mocno Wojtek na Szymona:
+Szymonie kochany, znak to niewidziany,
+że całe niebo czerwone!
+Na braci zawołaj, niechaj wstawają,
+Kuba i~Mikołaj niech wypędzają
+barany i~capy, owce, kozły, skopy
+zamknione.\stopstanza
+
+\startstanza
+Na te wołania z~smacznego spania
+porwał się Stach z~Grześkiem i~spadł z~broga.
+Maciek truchleje, od strachu mdleje,
+woła: uciekajcie, ach dla Boga!
+Grześko nogę złomał, Stach na nogę chromał,
+bo ją w~kolanie wywinął.
+Oj, oj, oj, oj, oj, oj --- Pawełek woła --
+uciekaj, dlaboga, gore stodoła;
+pogorzały szopy i~pszeniczne snopy,
+jagnięta.\stopstanza
+
+\startstanza
+Leżąc w~stodole, patrząc na pole,
+ujrzał Bartos stary anioły,
+którzy wdzięcznymi głosami swymi,
+okrzyknęli ziemskie padoły:
+Na niebie niech chwała Bogu będzie trwała,
+a~ludziom pokój na ziemi.
+Pasterze wstawajcie, witajcie Pana!
+Pokłon Mu oddajcie, wziąwszy barana.
+Skoczno Mu zagrajcie, głosy zaśpiewajcie zgodnemi.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD w~kantyczkach karmelitańskich (XVIII~w.)\eTD\eTR
+    \bTR\bTD\eTD\bTD oraz rozsz.~\quote{Kantyczek pieśni nabożnych} Jana Szlichtyna (1785~r.)\eTD\eTR
+    \bTR\bTD m.:\eTD\bTD autor nieznany\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Przystąpmy do szopy}] %{{{1
+% http://bibliotekapiosenki.pl/Przystapmy_do_szopy
+\author{Flasza, Tomasz}
+
+\startstanza
+Przystąpmy do szopy,
+uściskajmy stopy
+Jezusa narodzonego,
+który swoje Bóstwo
+wydał na ubóstwo
+dla zbawienia naszego.\stopstanza
+
+\startstanza
+Zawitaj Zbawco narodzony
+z~Przeczystej Panienki;
+gdzie berło, gdzie Twoje korony,
+Jezu malusieńki?\stopstanza
+
+\startstanza
+Ten, co wszechświat dzierży
+w~żłobie dzisiaj leży,
+ludzkiej pomocy czeka.
+Jezus, Bóg wcielony,
+w~żłobie położony
+dla zbawienia człowieka\stopstanza
+
+\startstanza
+O~Boże, bądźże pochwalony
+za Twe narodzenie!
+Racz zbawić ludzki ród zgubiony,
+daj duszy zbawienie!\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD \quote{Śpiewnik kościelny katolicki}, Tomasz Flasza (1903-1909~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Szczęśliwa kolebko}] %{{{1
+\author{Mioduszewski, ks. Michał, CM+„Śpiewnik kościelny”}
+
+\startstanza
+Szczęśliwa kolebko, szczęśliwy żłobie,
+ten Bóg co świat stworzył położon w~tobie:
+niebem nieogarniony,
+w~tobie wszystek zamkniony.\stopstanza
+
+\startstanza
+Kolebko niebieska, żłobku ubogi,
+w~tobie jest zawarty ten klejnot drogi,
+z~nieba światu spuszczony,
+złotem nieoceniony.\stopstanza
+
+\startstanza
+Gdy twoją uważam piękną ozdobę,
+ceniąc która leży w~żłobie osobę:
+nikną wszystkie urody,
+miękkie świata wygody.\stopstanza
+
+\startstanza
+Za nic złotogłowy, za nic szkarłaty,
+kiedy patrzę na te ubogie płaty,
+któremi Cię związała
+Matka, innych nie miała.\stopstanza
+
+\startstanza
+Zasypiaj szczęśliwie w~tej kolebeczce.
+Przyśpiewuj matuniu tej Dziecineczce.
+Niechaj zasypia wdzięcznie
+Jezus mój i~bezpiecznie.\stopstanza
+
+\vfill
+\bTABLE
+    \bTR\bTD t.~i~m.:\eTD\bTD \quote{Śpiewnik kościelny}, ks. Michał Mioduszewski CM (1838~r.)\eTD\eTR
+\eTABLE
+
+
+\startsection[title={Święta Panienka, Syna usypiała}] %{{{1
+\author{Jarewicz, Hanna}
+\composer{Maklakiewicz, Jan}
+
+\startstanza
+Święta Panienka Syna usypiała,
+drżącego z~zimna siankiem otulała.
+Tuli, tuli, moje Ubożątko,
+tuli, tuli, moje Ty Dzieciątko.\stopstanza
+
+\startstanza
+Śpi już spokojnie w~żłóbku kolebeczce,
+śpiewa Matusia Świętej Dziecineczce.
+Luli, luli, mały mój Synaczku,
+luli, luli, mój Ty Jedynaczku.\stopstanza
+
+\fillersmall
+\bTABLE
+    \bTR\bTD t.:\eTD\bTD Hanna Jarewicz\eTD\eTR
+    \bTR\bTD t.~i~m.:\eTD\bTD Jan Maklakiewicz (1899-1954~r.)\eTD\eTR
+\eTABLE
+
+%}}}
+
+\doifmode{indices}{
+    \page[yes]
+    \blank[big]
+    \subject{Skorowidz autorów, tradycji i~tłumaczy}
+    \placeregister[author]
+
+    \page[yes]
+    %\blank[big]
+    \subject{Skorowidz kompozytorów}
+    \placeregister[composer]
+}
+
+% vim: ts=4 sw=4 fdm=marker
