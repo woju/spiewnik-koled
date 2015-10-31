@@ -1,10 +1,10 @@
 CONTEXTOPTS = --batch
-
 TEXMF ?= /usr/share/texlive/texmf-dist
-
 OSCOLORDIR = /usr/share/ghostscript/9.14/iccprofiles
+NETVM = netvm
 
-all: spiewnik-skladka.pdf spiewnik-preprint.pdf
+ALL = spiewnik-skladka.pdf spiewnik-preprint.pdf okladka-skladka.pdf
+all: $(ALL)
 .PHONY: all
 
 %-skladka.pdf: %.tex
@@ -18,3 +18,7 @@ all: spiewnik-skladka.pdf spiewnik-preprint.pdf
 clean:
 	$(RM) -r *.pdf *.log *.tuc *.export *.template *.xml *.xhtml *.css *.specification *.tree
 .PHONY: clean
+
+upload:
+	qvm-copy-to-vm $(NETVM) $(ALL)
+.PHONY: upload
