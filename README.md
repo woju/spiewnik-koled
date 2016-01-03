@@ -1,5 +1,8 @@
 # Śpiewnik kolęd
 
+<img src="ilustr/rysunki/dzwonek.png" align="right"
+    alt="Dzwoneczek" title="Dzwoneczek" />
+
 *[EN] This is a songbook containing Christmas carols in Polish typeset in
 ConTeXt. The rest of README is also in Polish. Sorry for that.*
 
